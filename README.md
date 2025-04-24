@@ -58,7 +58,7 @@ The goal of this project is to predict transcription factor binding sites in euk
 - The above limitations can be overcome with greater computing power which is not readily available at the moment.
 
 # Literature
-[MLSNet: a deep learning model for predicting transcription factor binding sites](#https://academic.oup.com/bib/article/25/6/bbae489/7796622)
+[MLSNet: a deep learning model for predicting transcription factor binding sites](https://academic.oup.com/bib/article/25/6/bbae489/7796622)
 
 # Future Work
 1. Add kmers/shape features + ChIPseq validation
