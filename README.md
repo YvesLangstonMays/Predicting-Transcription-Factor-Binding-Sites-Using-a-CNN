@@ -6,18 +6,19 @@
 2. [Project Timeline](#project-timeline)
 3. [Objective](#objective)
 4. [Limitations](#limitations)
-5. [Background](#background)
+5. [Literature](#literature)
+6. [Future Work](#future-work)
+7. [Background](#background)
     - [Task Definition](#task-definition)
     - [Example Inputs](#example-inputs)
     - [Example Outputs](#example-outputs)
-6. [Literature](#literature)
-7. [Data](#data-source)
-8. [Preprocessing Steps](#preprocessing-steps)
-9. [Evaluating Metric](#evaluating-metric)
-10. [Model Selection](#model-selection)
-11. [CNN Design](#cnn-design)
-12. [Small Mutations to Improve Model Generalization](#small-mutations-to-improve-model-generalization)
-13. [Areas For Model Improvement](#areas-for-model-improvement)
+8. [Data](#data-source)
+9. [Preprocessing Steps](#preprocessing-steps)
+10. [Evaluating Metric](#evaluating-metric)
+11. [Model Selection](#model-selection)
+12. [CNN Design](#cnn-design)
+13. [Small Mutations to Improve Model Generalization](#small-mutations-to-improve-model-generalization)
+14. [Areas For Model Improvement](#areas-for-model-improvement)
 
     
 
@@ -55,6 +56,9 @@ The goal of this project is to predict transcription factor binding sites in euk
 - This approadch doesn't account for positon of binding sites with respect to genes or other regulatoy elements, both of which significantly affect binding.
 - The data used from JASPAR come from in vitro experiements, and so the results may not accurately reflect in vivo binding.
 
+# Literature
+# Future Work
+
 # Background
 
 Transcription factors are proteins that regulate gene expression by binding to specific DNA motifs in promoter regions. Accurately predicting these binding sites can be useful for:
@@ -65,7 +69,10 @@ Gene therapy – Targeted activation or repression of genes
 
 Functional genomics – Understanding regulatory networks in eukaryotic cells
 
-# Literature
+
+
+
+
 
 
 ## Task Definition
