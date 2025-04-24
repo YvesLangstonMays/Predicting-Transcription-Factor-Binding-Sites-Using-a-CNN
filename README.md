@@ -6,8 +6,8 @@
 2. [Project Timeline](#project-timeline)
 3. [Objective](#objective)
 4. [Limitations](#limitations)
-5. [Literature](#literature)
-6. [Future Work](#future-work)
+5. [Future Work](#future-work)
+6. [Literature](#literature)
 7. [Background](#background)
     - [Task Definition](#task-definition)
     - [Example Inputs](#example-inputs)
@@ -73,8 +73,6 @@ Synthetic biology – Designing custom promoters for gene circuits
 Gene therapy – Targeted activation or repression of genes
 
 Functional genomics – Understanding regulatory networks in eukaryotic cells
-
-
 
 
 
