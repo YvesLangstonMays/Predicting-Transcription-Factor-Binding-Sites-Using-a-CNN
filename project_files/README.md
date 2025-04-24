@@ -1,6 +1,7 @@
 # TF Binding Prediction Project
 
 ## Table of Contents
+
 1. [Introduction](#introduction)
 2. [Project Structure](#project-structure)
 3. [Biological Background](#biological-background)
@@ -18,8 +19,8 @@
    - [pytest-cov](#pytest-cov)
    - [Sphinx](#sphinx)
 
-
 # Project Structure
+
 ```bash
 tf_binding_prediction/
 ├── README.md                  # Project documentation
@@ -49,28 +50,33 @@ tf_binding_prediction/
 ## Transcription Factors and Gene Regulation
 
 ### DNA, Genes, and Proteins
+
 - **DNA** is the molecule that contains the genetic instructions for development and functioning of all living organisms
 - **Genes** are segments of DNA that contain instructions for making specific proteins
 - **Proteins** are complex molecules that perform most cellular functions and make up most cellular structures
 
 ### Transcription Factors (TFs)
+
 - **Transcription factors** are specialized proteins that control which genes are "turned on" or "turned off"
 - They work by binding to specific short DNA sequences (6-20 base pairs) near genes
 - These binding events help determine when and how much a gene is expressed
 - Think of TFs as biological "switches" that control gene activation
 
 ### Why Predicting TF Binding Sites Matters
+
 - Knowing where TFs bind helps us understand how cells regulate their genes
 - Mutations in TF binding sites can cause diseases by disrupting normal gene regulation
 - Many drugs target transcription factor pathways
 
 ### The Computational Challenge
+
 - The human genome contains ~3 billion DNA bases
 - Finding the short sequences (200bp) where specific TFs bind is like finding needles in a haystack
 - Experimental methods can identify binding sites but are expensive and time consuming
 - Our CNN model aims to learn the complex DNA sequence patterns that TFs recognize
 
 ### Data Representation
+
 - DNA sequences consist of four nucleotides: A (Adenine), C (Cytosine), G (Guanine), and T (Thymine)
 - We represent these as "one-hot encoded" vectors:
   - A = [1,0,0,0]
@@ -78,7 +84,6 @@ tf_binding_prediction/
   - G = [0,0,1,0]
   - T = [0,0,0,1]
 - A 200bp sequence becomes a 200×4 matrix, which is ideal for processing with CNNs
-
 
 # Quick Start Guide
 
@@ -98,6 +103,7 @@ chmod +x scripts/run_workflow.sh
 ```
 
 The workflow script will:
+
 1. Create necessary directory structures
 2. Download required data (reference genome, JASPAR motifs, ChIP-seq data)
 3. Process data for each transcription factor
@@ -110,9 +116,11 @@ Even if some components aren't implemented yet, the script will create placehold
 ## Getting Started
 
 ### Prerequisites
+
 Before starting, make sure you have:
 
 1. Installed all dependencies:
+
    ```python
    pip install -r requirements.txt
    ```
@@ -127,16 +135,19 @@ Before starting, make sure you have:
 The project requires implementation of several key Python modules:
 
 1. **Data Processing (`src/data.py`)**
+
    - Handles loading ChIP-seq data and reference genome
    - Performs one-hot encoding of DNA sequences
    - Generates positive and negative samples
    - Splits data into training, validation, and test sets
 
 2. **Model Definition (`src/model.py`)**
+
    - Defines the CNN architecture
    - Creates baseline models for comparison
 
 3. **Training Functions (`src/train.py`)**
+
    - Implements model training loop
    - Handles data augmentation
    - Implements early stopping and learning rate scheduling
@@ -146,22 +157,23 @@ The project requires implementation of several key Python modules:
    - Visualizes model performance
    - Implements motif analysis
 
-
 # Data
+
 CTCF (CCCTC-binding factor) is a super important transcription factor that acts like a **genomic organizer**. It binds to DNA and helps regulate the 3D structure of the genome by forming **chromatin loops**—basically bringing distant parts of the genome together or keeping them apart.
 
 Breakdown:
 
--  **Sequence-specific**: It binds to a specific DNA motif that's relatively easy to model computationally 
--  **Insulator function**: It can block the interaction between enhancers and promoters when needed, preventing the wrong genes from being turned on.
--  **Master of boundaries**: CTCF marks the edges of **topologically associating domains (TADs)**—big regions of the genome that interact more with themselves than with others.
--  **Involved in looping**: Often works with cohesin to create **loops** in the genome that are crucial for gene regulation.
+- **Sequence-specific**: It binds to a specific DNA motif that's relatively easy to model computationally
+- **Insulator function**: It can block the interaction between enhancers and promoters when needed, preventing the wrong genes from being turned on.
+- **Master of boundaries**: CTCF marks the edges of **topologically associating domains (TADs)**—big regions of the genome that interact more with themselves than with others.
+- **Involved in looping**: Often works with cohesin to create **loops** in the genome that are crucial for gene regulation.
 
 Because it has a clear motif and tons of ChIP seq data across many cell types, it’s one of the most studied TFs and a go to for computational biology.
 
 # Run Full Workflow
 
 Run the entire workflow from data download to model evaluation with a single script:
+
 ```bash
 scripts/run_workflow.sh
 This master script will:
@@ -173,13 +185,15 @@ Train models for each TF
 Evaluate models and analyze motifs
 Generate a summary report
 ```
+
 # Obscure Package Descriptions w/ Examples (AI generated)
 
-
 ### pyfaidx
+
 **Detailed Use Case:** When working with reference genomes or DNA sequence datasets, it is often necessary to extract specific regions around potential binding sites without loading gigabytes of sequence data into memory.
 
 **Expanded Example:**
+
 ```python
 from pyfaidx import Fasta
 import numpy as np
@@ -200,7 +214,7 @@ for chrom, start, end in tqdm(binding_sites, desc="Extracting sequences"):
     if chrom in genome:
         # Extract the 200bp sequence
         seq = str(genome[chrom][start:end])
-        
+
         # Skip sequences containing ambiguous nucleotides
         if 'N' not in seq:
             extracted_sequences.append(seq)
@@ -210,7 +224,9 @@ print(f"Extracted {len(extracted_sequences)} valid sequences")
 ```
 
 ### MLflow
+
 **Expanded Example:**
+
 ```python
 import mlflow
 import tensorflow as tf
@@ -225,25 +241,25 @@ mlflow.set_experiment("TF_Binding_CNN")
 def create_model(conv_layers=2, filters=32, kernel_size=8, dropout_rate=0.3):
     model = tf.keras.Sequential()
     model.add(tf.keras.layers.Input(shape=(200, 4)))  # 200bp, one-hot encoded
-    
+
     # Add convolutional layers
     for i in range(conv_layers):
         model.add(tf.keras.layers.Conv1D(filters=filters, kernel_size=kernel_size, activation='relu'))
         model.add(tf.keras.layers.MaxPooling1D(pool_size=2))
         model.add(tf.keras.layers.Dropout(dropout_rate))
-    
+
     model.add(tf.keras.layers.Flatten())
     model.add(tf.keras.layers.Dense(64, activation='relu'))
     model.add(tf.keras.layers.Dropout(dropout_rate))
     model.add(tf.keras.layers.Dense(1, activation='sigmoid'))
-    
+
     return model
 
 # Start an MLflow run when training a model
 with mlflow.start_run(run_name="CNN_2layer"):
     # Log parameters
     params = {
-        "conv_layers": 2, 
+        "conv_layers": 2,
         "filters": 32,
         "kernel_size": 8,
         "dropout_rate": 0.3,
@@ -252,15 +268,15 @@ with mlflow.start_run(run_name="CNN_2layer"):
         "epochs": 20,
         "transcription_factor": "CTCF"
     }
-    
+
     mlflow.log_params(params)
-    
+
     # Create and compile the model
     model = create_model(**{k: v for k, v in params.items() if k in ["conv_layers", "filters", "kernel_size", "dropout_rate"]})
     model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=params["learning_rate"]),
                  loss='binary_crossentropy',
                  metrics=['accuracy'])
-    
+
     # Train the model
     history = model.fit(
         X_train, y_train,
@@ -269,10 +285,10 @@ with mlflow.start_run(run_name="CNN_2layer"):
         validation_data=(X_val, y_val),
         callbacks=[tf.keras.callbacks.EarlyStopping(patience=5, restore_best_weights=True)]
     )
-    
+
     # Log metrics from training
     for epoch, (loss, acc, val_loss, val_acc) in enumerate(zip(
-            history.history['loss'], 
+            history.history['loss'],
             history.history['accuracy'],
             history.history['val_loss'],
             history.history['val_accuracy'])):
@@ -282,19 +298,19 @@ with mlflow.start_run(run_name="CNN_2layer"):
             "val_loss": val_loss,
             "val_accuracy": val_acc
         }, step=epoch)
-    
+
     # Evaluate on test set
     y_pred = model.predict(X_test)
     test_auc = roc_auc_score(y_test, y_pred)
     mlflow.log_metric("test_auc", test_auc)
-    
+
     # Log the model
     mlflow.tensorflow.log_model(model, "model")
-    
+
     # Log a visualization of ROC curve
     import matplotlib.pyplot as plt
     from sklearn.metrics import roc_curve
-    
+
     fpr, tpr, _ = roc_curve(y_test, y_pred)
     plt.figure(figsize=(10, 8))
     plt.plot(fpr, tpr)
@@ -303,14 +319,16 @@ with mlflow.start_run(run_name="CNN_2layer"):
     plt.ylabel('True Positive Rate')
     plt.title(f'ROC Curve (AUC = {test_auc:.3f})')
     plt.savefig("roc_curve.png")
-    
+
     mlflow.log_artifact("roc_curve.png")
 ```
 
 ### pybedtools
+
 **Detailed Use Case:** When analyzing transcription factor binding sites, it is often necessary to relate them to genomic features like promoters, enhancers, or other regulatory elements to understand binding patterns.
 
 **Expanded Example:**
+
 ```python
 from pybedtools import BedTool
 import pandas as pd
@@ -372,9 +390,11 @@ plt.savefig('binding_site_analysis.png')
 ```
 
 ### pysam
+
 **Detailed Use Case:** If validating predicted binding sites against ChIPseq or ATACseq data, you'll need to analyze alignment files to quantify the overlap between your predictions and experimental evidence.
 
 **Expanded Example:**
+
 ```python
 import pysam
 import numpy as np
@@ -385,37 +405,37 @@ import matplotlib.pyplot as plt
 def calculate_coverage_profile(bamfile, binding_sites, window=1000):
     """
     Calculate average read coverage around binding sites
-    
+
     Parameters:
     - bamfile: path to indexed BAM file
     - binding_sites: list of (chrom, position) tuples
     - window: size of window around binding site center
-    
+
     Returns:
     - Average coverage profile array
     """
     bam = pysam.AlignmentFile(bamfile, "rb")
-    
+
     # Initialize coverage array
     coverage_matrix = np.zeros((len(binding_sites), 2*window))
-    
+
     for i, (chrom, pos) in enumerate(binding_sites):
         start = max(0, pos - window)
         end = pos + window
-        
+
         # Get coverage for this region
         coverage = np.zeros(2*window)
-        
+
         for column in bam.pileup(chrom, start, end, truncate=True):
             rel_pos = column.pos - start
             if 0 <= rel_pos < 2*window:
                 coverage[rel_pos] = column.n
-        
+
         coverage_matrix[i] = coverage
-    
+
     # Calculate average coverage
     avg_coverage = np.mean(coverage_matrix, axis=0)
-    
+
     return avg_coverage
 
 # Load your predicted binding sites
@@ -423,9 +443,9 @@ predictions_df = pd.read_csv('predicted_binding_sites.csv')
 predicted_sites = list(zip(predictions_df['chromosome'], predictions_df['position']))
 
 # Load positive and negative control sites (e.g., experimentally validated)
-positive_sites = list(zip(pd.read_csv('validated_sites.csv')['chromosome'], 
+positive_sites = list(zip(pd.read_csv('validated_sites.csv')['chromosome'],
                         pd.read_csv('validated_sites.csv')['position']))
-negative_sites = list(zip(pd.read_csv('non_binding_sites.csv')['chromosome'], 
+negative_sites = list(zip(pd.read_csv('non_binding_sites.csv')['chromosome'],
                         pd.read_csv('non_binding_sites.csv')['position']))
 
 # Calculate coverage profiles from ChIP-seq data
@@ -449,9 +469,11 @@ plt.savefig('chip_seq_validation.png')
 ```
 
 ### SHAP (SHapley Additive exPlanations)
+
 **Detailed Use Case:** After training the CNN model, understand which nucleotide positions and patterns in the 200bp sequences are most influential for predicting transcription factor binding.
 
 **Expanded Example:**
+
 ```python
 import shap
 import numpy as np
@@ -508,7 +530,7 @@ for i in range(window_size):
     for nuc in range(4):
         # Calculate mean absolute SHAP value
         mean_effect = np.mean(np.abs(region_shap[:, i, nuc]))
-        plt.bar(pos, mean_effect, bottom=height, width=0.8, 
+        plt.bar(pos, mean_effect, bottom=height, width=0.8,
                 color=['green', 'blue', 'orange', 'red'][nuc])
         height += mean_effect
 
@@ -521,9 +543,11 @@ plt.savefig('nucleotide_importance.png')
 ```
 
 ### Hydra-core
+
 **Detailed Use Case:** You need to experiment with different model architectures, data preprocessing approaches, and training configurations while keeping track of all parameters systematically.
 
 **Expanded Example:**
+
 ```python
 # Directory structure:
 # config/
@@ -601,33 +625,33 @@ import mlflow
 def train(cfg: DictConfig):
     # Set up logging
     logging.info(f"Training with config:\n{OmegaConf.to_yaml(cfg)}")
-    
+
     # Set up MLflow tracking
     mlflow.set_experiment(cfg.experiment_name)
     with mlflow.start_run():
         # Log all configs
-        mlflow.log_params({f"{key}.{subkey}": val 
-                          for key, dict_val in OmegaConf.to_container(cfg).items() 
-                          for subkey, val in dict_val.items() 
+        mlflow.log_params({f"{key}.{subkey}": val
+                          for key, dict_val in OmegaConf.to_container(cfg).items()
+                          for subkey, val in dict_val.items()
                           if isinstance(dict_val, dict)})
-        
+
         # Load data with preprocessing config
         X_train, y_train, X_val, y_val, X_test, y_test = load_data(cfg.data)
-        
+
         # Build model from config
         model = build_model_from_config(cfg.model)
-        
+
         # Set up optimizer
         if cfg.training.optimizer.name == "adam":
             optimizer = tf.keras.optimizers.Adam(learning_rate=cfg.training.optimizer.learning_rate)
         elif cfg.training.optimizer.name == "sgd":
             optimizer = tf.keras.optimizers.SGD(learning_rate=cfg.training.optimizer.learning_rate)
-        
+
         # Compile model
         model.compile(optimizer=optimizer,
                      loss="binary_crossentropy",
                      metrics=["accuracy", tf.keras.metrics.AUC(name="auc")])
-        
+
         # Set up callbacks
         callbacks = []
         if cfg.training.early_stopping.enabled:
@@ -636,14 +660,14 @@ def train(cfg: DictConfig):
                 monitor=cfg.training.early_stopping.monitor,
                 restore_best_weights=True
             ))
-        
+
         # Set up class weights if enabled
         class_weights = None
         if cfg.training.class_weights.enabled:
             n_pos = sum(y_train)
             n_neg = len(y_train) - n_pos
             class_weights = {0: len(y_train)/(2*n_neg), 1: len(y_train)/(2*n_pos)}
-        
+
         # Train model
         history = model.fit(
             X_train, y_train,
@@ -653,19 +677,19 @@ def train(cfg: DictConfig):
             callbacks=callbacks,
             class_weight=class_weights
         )
-        
+
         # Evaluate model
         results = model.evaluate(X_test, y_test)
         metrics = dict(zip(model.metrics_names, results))
-        
+
         # Log metrics
         mlflow.log_metrics(metrics)
-        
+
         # Save model
         model_path = os.path.join(cfg.output_dir, "model.h5")
         model.save(model_path)
         mlflow.log_artifact(model_path)
-        
+
         logging.info(f"Training completed. Test metrics: {metrics}")
 
 if __name__ == "__main__":
@@ -673,9 +697,11 @@ if __name__ == "__main__":
 ```
 
 ### pytest
+
 **Detailed Use Case:** Ensure that critical components like the data processing pipeline and model architecture work consistently across different machines and as the code evolves.
 
 **Expanded Example:**
+
 ```python
 # src/data.py
 import numpy as np
@@ -713,74 +739,74 @@ import numpy as np
 from src.data import one_hot_encode, reverse_complement, generate_negative_samples
 
 class TestDataProcessing:
-    
+
     def test_one_hot_encode_valid_sequence(self):
         """Test one-hot encoding with valid DNA sequence"""
         seq = "ACGT"
         encoded = one_hot_encode(seq)
-        
+
         # Check shape
         assert encoded.shape == (4, 4)
-        
+
         # Check nucleotide encodings
         assert np.array_equal(encoded[0], [1, 0, 0, 0])  # A
         assert np.array_equal(encoded[1], [0, 1, 0, 0])  # C
         assert np.array_equal(encoded[2], [0, 0, 1, 0])  # G
         assert np.array_equal(encoded[3], [0, 0, 0, 1])  # T
-    
+
     def test_one_hot_encode_with_n(self):
         """Test one-hot encoding with N (unknown base)"""
         seq = "ACGTN"
         encoded = one_hot_encode(seq)
-        
+
         # Check N encoding
         assert np.array_equal(encoded[4], [0, 0, 0, 0])  # N
-    
+
     def test_one_hot_encode_lowercase(self):
         """Test one-hot encoding with lowercase letters"""
         seq = "acgt"
         encoded = one_hot_encode(seq)
-        
+
         # Check nucleotide encodings are case-insensitive
         assert np.array_equal(encoded[0], [1, 0, 0, 0])  # a
         assert np.array_equal(encoded[1], [0, 1, 0, 0])  # c
         assert np.array_equal(encoded[2], [0, 0, 1, 0])  # g
         assert np.array_equal(encoded[3], [0, 0, 0, 1])  # t
-    
+
     def test_reverse_complement(self):
         """Test reverse complement function"""
         seq = "ATGCN"
         rev_comp = reverse_complement(seq)
-        
+
         assert rev_comp == "NGCAT"
-        
+
         # Test palindromic sequence
         palindrome = "ACGT"
         assert reverse_complement(palindrome) == "ACGT"
-    
+
     def test_generate_negative_samples_shuffle(self):
         """Test generation of negative samples via shuffling"""
         positive_seqs = ["ATGC", "CCGG"]
         negatives = generate_negative_samples(positive_seqs, method='shuffle')
-        
+
         # Check we get same number of samples
         assert len(negatives) == len(positive_seqs)
-        
+
         # Check same nucleotide composition but different order
         for pos, neg in zip(positive_seqs, negatives):
             assert sorted(pos) == sorted(neg)
             assert pos != neg or pos == neg * len(pos)  # Only equal if all same letter
-    
+
     @pytest.mark.parametrize("method", ["shuffle", "dinucleotide_shuffle"])
     def test_generate_negative_samples_methods(self, method):
         """Test different methods of negative sample generation"""
         positive_seqs = ["ATGCATGC", "CCGGTTAA"]
         negatives = generate_negative_samples(positive_seqs, method=method)
-        
+
         # Basic checks regardless of method
         assert len(negatives) == len(positive_seqs)
         assert all(len(neg) == len(pos) for neg, pos in zip(negatives, positive_seqs))
-    
+
     def test_generate_negative_samples_invalid_method(self):
         """Test error handling for invalid method"""
         with pytest.raises(ValueError):
@@ -788,9 +814,11 @@ class TestDataProcessing:
 ```
 
 ### pytest-cov
+
 **Detailed Use Case:** Maintain code quality by ensuring that tests cover all critical paths in the codebase, especially the data processing and model components.
 
 **Expanded Example:**
+
 ```bash
 # Run tests with coverage and generate a report
 pytest --cov=src --cov-report=html tests/
@@ -800,68 +828,72 @@ pytest --cov=src --cov-report=html tests/
 
 **Coverage HTML Example:**
 The HTML report would show:
+
 - Overall coverage percentage
 - File by file coverage with color coding (green for covered, red for uncovered)
 - Line by line highlighting showing which specific code paths are tested or not
 
 **Integration with CI/CD:**
+
 ```yaml
 # .github/workflows/tests.yml
 name: Tests
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   test:
     runs-on: ubuntu-latest
-    
+
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.9
-    
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-    
-    - name: Run tests with coverage
-      run: |
-        pytest --cov=src --cov-report=xml tests/
-    
-    - name: Upload coverage report
-      uses: codecov/codecov-action@v1
-      with:
-        file: ./coverage.xml
-        fail_ci_if_error: true
-        verbose: true
-    
-    - name: Check coverage threshold
-      run: |
-        coverage report --fail-under=80
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run tests with coverage
+        run: |
+          pytest --cov=src --cov-report=xml tests/
+
+      - name: Upload coverage report
+        uses: codecov/codecov-action@v1
+        with:
+          file: ./coverage.xml
+          fail_ci_if_error: true
+          verbose: true
+
+      - name: Check coverage threshold
+        run: |
+          coverage report --fail-under=80
 ```
 
 ### Sphinx
+
 **Detailed Use Case:** Good documentation is essential so everyone understands the codebase and can effectively collaborate. This is especially important for complex functions like model architecture and data augmentation.
 
 **Expanded Example:**
+
 ```python
 # src/model.py
-def create_binding_cnn(sequence_length=200, num_filters=(32, 64), 
+def create_binding_cnn(sequence_length=200, num_filters=(32, 64),
                       kernel_sizes=(8, 4), pool_sizes=(2, 2),
                       dense_units=64, dropout_rate=0.3):
     """
     Create a 1D CNN model for transcription factor binding prediction.
-    
-    This model takes one-hot encoded DNA sequences and predicts whether a 
+
+    This model takes one-hot encoded DNA sequences and predicts whether a
     transcription factor binding site is present in the sequence.
-    
+
     Parameters
     ----------
     sequence_length : int, optional
@@ -876,22 +908,22 @@ def create_binding_cnn(sequence_length=200, num_filters=(32, 64),
         Number of units in the dense layer, by default 64
     dropout_rate : float, optional
         Dropout rate for regularization, by default 0.3
-    
+
     Returns
     -------
     tensorflow.keras.Model
         Compiled CNN model for binding site prediction
-        
+
     Notes
     -----
     The model architecture is based on DeepBind [1] but simplified for this project.
-    
+
     References
     ----------
     .. [1] Alipanahi, B., Delong, A., Weirauch, M. T., & Frey, B. J. (2015).
        Predicting the sequence specificities of DNA-and RNA-binding proteins
        by deep learning. Nature biotechnology, 33(8), 831-838.
-    
+
     Examples
     --------
     >>> model = create_binding_cnn(sequence_length=200)
@@ -900,26 +932,26 @@ def create_binding_cnn(sequence_length=200, num_filters=(32, 64),
     >>> history = model.fit(X_train, y_train, epochs=10, validation_data=(X_val, y_val))
     """
     import tensorflow as tf
-    
+
     # Input layer for one-hot encoded DNA
     inputs = tf.keras.layers.Input(shape=(sequence_length, 4))
-    
+
     # Build convolutional layers
     x = inputs
     for filters, kernel_size, pool_size in zip(num_filters, kernel_sizes, pool_sizes):
-        x = tf.keras.layers.Conv1D(filters=filters, kernel_size=kernel_size, 
+        x = tf.keras.layers.Conv1D(filters=filters, kernel_size=kernel_size,
                                   activation='relu', padding='same')(x)
         x = tf.keras.layers.MaxPooling1D(pool_size=pool_size)(x)
         x = tf.keras.layers.Dropout(dropout_rate)(x)
-    
+
     # Flatten and dense layers
     x = tf.keras.layers.Flatten()(x)
     x = tf.keras.layers.Dense(dense_units, activation='relu')(x)
     x = tf.keras.layers.Dropout(dropout_rate)(x)
-    
+
     # Output layer
     outputs = tf.keras.layers.Dense(1, activation='sigmoid')(x)
-    
+
     # Create and compile model
     model = tf.keras.Model(inputs=inputs, outputs=outputs)
     model.compile(
@@ -927,11 +959,12 @@ def create_binding_cnn(sequence_length=200, num_filters=(32, 64),
         loss='binary_crossentropy',
         metrics=['accuracy', tf.keras.metrics.AUC(name='auc')]
     )
-    
+
     return model
 ```
 
 **Sphinx Configuration:**
+
 ```bash
 # Initialize Sphinx in docs/ directory
 sphinx-quickstart docs --sep -p "TF Binding Prediction" -a "Team Members" -v "0.1" -l "en"
@@ -957,5 +990,3 @@ sphinx-apidoc -o docs/api src
 cd docs
 make html
 ```
-
-
