@@ -7,18 +7,17 @@
 3. [Objective](#objective)
 4. [Limitations](#limitations)
 5. [Future Work](#future-work)
-6. [Literature](#literature)
-7. [Background](#background)
+6. [Background](#background)
     - [Task Definition](#task-definition)
     - [Example Inputs](#example-inputs)
     - [Example Outputs](#example-outputs)
-8. [Data](#data-source)
-9. [Preprocessing Steps](#preprocessing-steps)
-10. [Evaluating Metric](#evaluating-metric)
-11. [Model Selection](#model-selection)
-12. [CNN Design](#cnn-design)
-13. [Small Mutations to Improve Model Generalization](#small-mutations-to-improve-model-generalization)
-14. [Areas For Model Improvement](#areas-for-model-improvement)
+7. [Data](#data-source)
+8. [Preprocessing Steps](#preprocessing-steps)
+9. [Evaluating Metric](#evaluating-metric)
+10. [Model Selection](#model-selection)
+11. [CNN Design](#cnn-design)
+12. [Small Mutations to Improve Model Generalization](#small-mutations-to-improve-model-generalization)
+13. [Areas For Model Improvement](#areas-for-model-improvement)
 
     
 
@@ -57,13 +56,23 @@ The goal of this project is to predict transcription factor binding sites in euk
 - The data used from JASPAR come from in vitro experiements, and so the results may not accurately reflect in vivo binding.
 - The above limitations can be overcome with greater computing power which is not readily available at the moment.
 
-# Literature
-[MLSNet: a deep learning model for predicting transcription factor binding sites](https://academic.oup.com/bib/article/25/6/bbae489/7796622)
 
 # Future Work
-1. Add kmers/shape features + ChIPseq validation
-2. Multitask learning for related TFs (zinc finger family)
-3. Hybrid CNN transformer + ΔG prediction
+
+Building on [MLSNet](https://academic.oup.com/bib/article/25/6/bbae489/7796622), we will attempt to bridge teh gap between *in silico* predictions and biological reality:
+
+1. **Energy TFBS Prediction**  
+   - Integrate experimental binding energy measurements (ΔG) from:
+     - *In vitro*: PBM and HT SELEX data ([UniPROBE](https://thebrain.bwh.harvard.edu/uniprobe/))
+     - *In vivo*: ChIP seq signal intensities (peak heights/pos)
+   - Develop a multitask architecture that predicts:
+     - Binary binding classification (the existing MLSNet output)
+     - Continuous ΔG values (new regression head)
+     - Binding kinetics (kon/koff) where available
+
+2. **Chromatin-Aware Modeling**  
+   Augment the framework with epigenetic features
+   
 
 # Background
 
