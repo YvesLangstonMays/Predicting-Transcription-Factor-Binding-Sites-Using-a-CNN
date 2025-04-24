@@ -110,7 +110,7 @@ Even if some components aren't implemented yet, the script will create placehold
 ## Getting Started
 
 ### Prerequisites
-Before starting , make sure you have:
+Before starting, make sure you have:
 
 1. Installed all dependencies:
    ```python
@@ -157,7 +157,7 @@ Breakdown:
 -  **Master of boundaries**: CTCF marks the edges of **topologically associating domains (TADs)**—big regions of the genome that interact more with themselves than with others.
 -  **Involved in looping**: Often works with cohesin to create **loops** in the genome that are crucial for gene regulation.
 
-Because it has a clear motif and tons of ChIP-seq data across many cell types, it’s one of the most studied TFs and a go to for computational biology.
+Because it has a clear motif and tons of ChIP seq data across many cell types, it’s one of the most studied TFs and a go to for computational biology.
 
 # Run Full Workflow
 
@@ -177,7 +177,7 @@ Generate a summary report
 
 
 ### pyfaidx
-**Detailed Use Case:** When working with reference genomes or DNA sequence datasets, you'll often need to extract specific regions around potential binding sites without loading gigabytes of sequence data into memory.
+**Detailed Use Case:** When working with reference genomes or DNA sequence datasets, it is often necessary to extract specific regions around potential binding sites without loading gigabytes of sequence data into memory.
 
 **Expanded Example:**
 ```python
@@ -308,7 +308,7 @@ with mlflow.start_run(run_name="CNN_2layer"):
 ```
 
 ### pybedtools
-**Detailed Use Case:** When analyzing transcription factor binding sites, you often need to relate them to genomic features like promoters, enhancers, or other regulatory elements to understand binding patterns.
+**Detailed Use Case:** When analyzing transcription factor binding sites, it is often necessary to relate them to genomic features like promoters, enhancers, or other regulatory elements to understand binding patterns.
 
 **Expanded Example:**
 ```python
@@ -372,7 +372,7 @@ plt.savefig('binding_site_analysis.png')
 ```
 
 ### pysam
-**Detailed Use Case:** If you're validating your predicted binding sites against ChIP-seq or ATAC-seq data, you'll need to analyze alignment files to quantify the overlap between your predictions and experimental evidence.
+**Detailed Use Case:** If validating predicted binding sites against ChIPseq or ATACseq data, you'll need to analyze alignment files to quantify the overlap between your predictions and experimental evidence.
 
 **Expanded Example:**
 ```python
@@ -449,7 +449,7 @@ plt.savefig('chip_seq_validation.png')
 ```
 
 ### SHAP (SHapley Additive exPlanations)
-**Detailed Use Case:** After training your CNN model, you need to understand which nucleotide positions and patterns in the 200bp sequences are most influential for predicting transcription factor binding.
+**Detailed Use Case:** After training the CNN model, understand which nucleotide positions and patterns in the 200bp sequences are most influential for predicting transcription factor binding.
 
 **Expanded Example:**
 ```python
@@ -521,7 +521,7 @@ plt.savefig('nucleotide_importance.png')
 ```
 
 ### Hydra-core
-**Detailed Use Case:** Your 5-member team needs to experiment with different model architectures, data preprocessing approaches, and training configurations while keeping track of all parameters systematically.
+**Detailed Use Case:** You need to experiment with different model architectures, data preprocessing approaches, and training configurations while keeping track of all parameters systematically.
 
 **Expanded Example:**
 ```python
@@ -673,7 +673,7 @@ if __name__ == "__main__":
 ```
 
 ### pytest
-**Detailed Use Case:** In a team project, you need to ensure that critical components like the data processing pipeline and model architecture work consistently across different machines and as the code evolves.
+**Detailed Use Case:** Ensure that critical components like the data processing pipeline and model architecture work consistently across different machines and as the code evolves.
 
 **Expanded Example:**
 ```python
@@ -788,7 +788,7 @@ class TestDataProcessing:
 ```
 
 ### pytest-cov
-**Detailed Use Case:** Your team needs to maintain code quality by ensuring that tests cover all critical paths in the codebase, especially the data processing and model components.
+**Detailed Use Case:** Maintain code quality by ensuring that tests cover all critical paths in the codebase, especially the data processing and model components.
 
 **Expanded Example:**
 ```bash
@@ -801,8 +801,8 @@ pytest --cov=src --cov-report=html tests/
 **Coverage HTML Example:**
 The HTML report would show:
 - Overall coverage percentage
-- File-by-file coverage with color coding (green for covered, red for uncovered)
-- Line-by-line highlighting showing which specific code paths are tested or not
+- File by file coverage with color coding (green for covered, red for uncovered)
+- Line by line highlighting showing which specific code paths are tested or not
 
 **Integration with CI/CD:**
 ```yaml
@@ -848,7 +848,7 @@ jobs:
 ```
 
 ### Sphinx
-**Detailed Use Case:** For your 30-day project with 5 team members, good documentation is essential so everyone understands the codebase and can effectively collaborate. This is especially important for complex functions like model architecture and data augmentation.
+**Detailed Use Case:** Good documentation is essential so everyone understands the codebase and can effectively collaborate. This is especially important for complex functions like model architecture and data augmentation.
 
 **Expanded Example:**
 ```python
