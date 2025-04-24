@@ -55,9 +55,14 @@ The goal of this project is to predict transcription factor binding sites in euk
 - DNA binding is heavily infleuenced by chromatin, methylation, and histone states/modifications. None of this is captured in this model.
 - This approadch doesn't account for positon of binding sites with respect to genes or other regulatoy elements, both of which significantly affect binding.
 - The data used from JASPAR come from in vitro experiements, and so the results may not accurately reflect in vivo binding.
+- The above limitations can be overcome with greater computing power which is not readily available at the moment.
 
 # Literature
+
 # Future Work
+1. Add kmers/shape features + ChIPseq validation
+2. Multitask learning for related TFs (zinc finger family)
+3. Hybrid CNN transformer + ΔG prediction
 
 # Background
 
