@@ -61,7 +61,7 @@ The goal of this project is to predict transcription factor binding sites in euk
 
 Building on [MLSNet](https://academic.oup.com/bib/article/25/6/bbae489/7796622), we will attempt to bridge teh gap between *in silico* predictions and biological reality:
 
-1. **Energy TFBS Prediction**  
+1. **Energy Aware TFBS Prediction**  
    - Integrate experimental binding energy measurements (ΔG) from:
      - *In vitro*: PBM and HT SELEX data ([UniPROBE](https://thebrain.bwh.harvard.edu/uniprobe/))
      - *In vivo*: ChIP seq signal intensities (peak heights/pos)
@@ -70,7 +70,7 @@ Building on [MLSNet](https://academic.oup.com/bib/article/25/6/bbae489/7796622),
      - Continuous ΔG values (new regression head)
      - Binding kinetics (kon/koff) where available
 
-2. **Chromatin-Aware Modeling**  
+2. **Chromatin Aware Modeling**  
    Augment the framework with epigenetic features
    
 
