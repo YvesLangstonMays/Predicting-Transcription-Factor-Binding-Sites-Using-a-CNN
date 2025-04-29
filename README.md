@@ -91,7 +91,9 @@ tf_binding_prediction/
 
 The project includes a master script that handles the entire workflow from data download to model evaluation.
 
-### Shrunken dataset is included in the repo due to size limitations, if you want to run the full dataset, delete the existing processed data and the script will download the full dataset + process it.
+### No Download is required for the dataset, it is included in this repo.
+
+### No model training is required for this script, they are included in this repo.
 
 ```bash
 # Navigate to the project root
@@ -110,8 +112,11 @@ cd scripts
 ./run_workflow.sh
 ```
 
-# Make the workflow script executable if needed
+### Make the workflow script executable if needed
+
+```bash
 chmod +x scripts/run_workflow.sh
+```
 
 The workflow script will:
 
