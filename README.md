@@ -89,73 +89,39 @@ tf_binding_prediction/
 
 ## Running the Workflow
 
-The project includes a master script that handles the entire workflow from data download to model evaluation. This script is designed to work even if some components haven't been implemented yet.
+The project includes a master script that handles the entire workflow from data download to model evaluation.
+
+### Shrunken dataset is included in the repo due to size limitations, if you want to run the full dataset, delete the existing processed data and the script will download the full dataset + process it.
 
 ```bash
 # Navigate to the project root
-cd tf_binding_prediction
+cd Predicting-Transcription-Factor-Binding-Sites-Using-a-CNN
+
+# Navigate to the source code
+cd project_files
+
+# install required python packages
+pip install -r requirements.txt
+
+# navigate to scripts directory
+cd scripts
+
+# run the master workflow script
+./run_workflow.sh
+```
 
 # Make the workflow script executable if needed
 chmod +x scripts/run_workflow.sh
-
-# Run the workflow
-./scripts/run_workflow.sh
-```
 
 The workflow script will:
 
 1. Create necessary directory structures
 2. Download required data (reference genome, JASPAR motifs, ChIP-seq data)
 3. Process data for each transcription factor
-4. Train models (if implemented)
-5. Evaluate models (if implemented)
-6. Generate a summary report (if implemented)
+4. Train models
+5. Evaluate models 
+6. Generate a summary report 
 
-Even if some components aren't implemented yet, the script will create placeholder files to help you understand the expected inputs and outputs.
-
-## Getting Started
-
-### Prerequisites
-
-Before starting, make sure you have:
-
-1. Installed all dependencies:
-
-   ```python
-   pip install -r requirements.txt
-   ```
-
-2. Run the workflow script once to download data and set up the directory structure:
-   ```bash
-   ./scripts/run_workflow.sh
-   ```
-
-### Implementing Core Components
-
-The project requires implementation of several key Python modules:
-
-1. **Data Processing (`src/data.py`)**
-
-   - Handles loading ChIP-seq data and reference genome
-   - Performs one-hot encoding of DNA sequences
-   - Generates positive and negative samples
-   - Splits data into training, validation, and test sets
-
-2. **Model Definition (`src/model.py`)**
-
-   - Defines the CNN architecture
-   - Creates baseline models for comparison
-
-3. **Training Functions (`src/train.py`)**
-
-   - Implements model training loop
-   - Handles data augmentation
-   - Implements early stopping and learning rate scheduling
-
-4. **Evaluation Metrics (`src/evaluate.py`)**
-   - Calculates accuracy, AUC-ROC, and other metrics
-   - Visualizes model performance
-   - Implements motif analysis
 
 # Data
 
