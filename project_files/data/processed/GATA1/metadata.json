@@ -1,6 +1,6 @@
 {
     "tf_name": "GATA1",
-    "date": "2025-04-19T19:40:22.032786",
+    "date": "2025-04-28T14:52:04.682393",
     "sequence_length": 200,
     "test_size": 0.2,
     "val_size": 0.1,

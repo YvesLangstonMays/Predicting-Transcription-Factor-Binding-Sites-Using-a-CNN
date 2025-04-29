@@ -45,18 +45,23 @@ else
 fi
 
 print_header "DOWNLOADING DATA"
-if [ ! -f "$PROJECT_ROOT/data/raw/genome/hg38.fa" ] \
-  || [ ! -d "$PROJECT_ROOT/data/raw/jaspar" ] \
-  || [ ! -d "$PROJECT_ROOT/data/raw/encode" ]; then
-  if [ -f "$SCRIPT_DIR/download_data.sh" ]; then
-    bash "$SCRIPT_DIR/download_data.sh" \
-      && print_success "Data downloaded" \
-      || print_warning "download_data.sh missing or failed"
-  else
-    print_warning "download_data.sh not found, cannot fetch data"
-  fi
+if [ -d "$PROJECT_ROOT/data/processed/CEBPA" ] \
+  && [ "$(ls -A "$PROJECT_ROOT/data/processed/CEBPA"/*.npy 2>/dev/null)" ]; then
+  print_success "Processed data already exists, skipping all downloads and preprocessing"
 else
-  print_success "Data present, skipping download"
+  if [ ! -f "$PROJECT_ROOT/data/raw/genome/hg38.fa" ] \
+    || [ ! -d "$PROJECT_ROOT/data/raw/jaspar" ] \
+    || [ ! -d "$PROJECT_ROOT/data/raw/encode" ]; then
+    if [ -f "$SCRIPT_DIR/download_data.sh" ]; then
+      bash "$SCRIPT_DIR/download_data.sh" \
+        && print_success "Data downloaded" \
+        || print_warning "download_data.sh missing or failed"
+    else
+      print_warning "download_data.sh not found, cannot fetch data"
+    fi
+  else
+    print_success "Data present, skipping download"
+  fi
 fi
 
 print_header "PROCESSING DATA"
@@ -65,6 +70,11 @@ for TF in "${TFS[@]}"; do
   shopt -s nullglob
   beds=( "$PROJECT_ROOT/data/raw/encode/$TF"/ENCFF*.bed )
   shopt -u nullglob
+
+  if [ -d "$PROJECT_ROOT/data/processed/$TF" ] && [ "$(ls -A "$PROJECT_ROOT/data/processed/$TF"/*.npy 2>/dev/null)" ]; then
+    print_success "Processed data for $TF already exists, skipping"
+    continue
+  fi
 
   if [ ${#beds[@]} -eq 0 ]; then
     print_warning "No BED file for $TF, skipping"

@@ -1,8 +1,0 @@
-{
-    "tf_name": "CTCF",
-    "date": "2025-04-19T03:10:19.993953",
-    "sequence_length": 200,
-    "test_size": 0.2,
-    "val_size": 0.1,
-    "augment": false
-}

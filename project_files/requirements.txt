@@ -10,7 +10,7 @@ scikit-learn>=1.0.0
 tensorflow-macos>=2.9.0  # Apple Silicon compatible TensorFlow 
 tensorflow-metal>=0.5.0  # Metal acceleration for Apple Silicon
 ## For non-Mac systems, uncomment:
-### tensorflow>=2.8.0
+tensorflow>=2.8.0
 
 # Biological data processing
 biopython>=1.79
